@@ -365,7 +365,7 @@ class Duet(object):
         delay_peak : ndarray
             an array contains the peaks of delay.
         """
-        from .find_peaks import find_peak_indices
+        from find_peaks import find_peak_indices
         peaks = find_peak_indices(norm_atn_delay_hist, n_peaks=n_peaks, min_dist=min_dist, threshold=threshold)
 
         # alternative method:
