@@ -21,10 +21,12 @@ All the sound files present it in the Data folder are credited to the original c
 # Demo
 
 ```python
+import numpy as np
 from bss import Duet
 from scipy.io.wavfile import read, write
 # x is stereo(2 channels)
 sr, x = read("<FILEDIR>/x.wav")
+x = np.transpose(x)
 duet = Duet(x, n_sources=5, sample_rate=sr)
 estimates = duet()
 duet.plot_atn_delay_hist()
