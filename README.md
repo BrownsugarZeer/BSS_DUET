@@ -2,16 +2,17 @@
 
 Python code that implements the DUET blind source separation algorithm.
 
-MATLAB code from here - https://github.com/yvesx/casa495, which in turn was based on [this publication](http://link.springer.com/chapter/10.1007%2F978-1-4020-6479-1_8#page-1) and [this website](http://eleceng.ucd.ie/~srickard/bss.html)
+MATLAB code from here - https://github.com/yvesx/casa495, which in turn was based on [The_DUET_blind_source_separation_algorithm](https://www.researchgate.net/publication/227143748_The_DUET_blind_source_separation_algorithm)
 
 The references are credited below, and refactored some blocks of code to speed up. The peaks detection method is took from [here](https://github.com/nussl/nussl/blob/471e7965c5788bff9fe2e1f7884537cae2d18e6f/nussl/core//utils.py#L49).
 All the sound files present it in the Data folder are credited to the original casa495 project.
 
 # Credits:
 
-1. harmeet88523
-2. bhargavvader
-3. NareshPeshwe
+1. Scott Rickard
+2. harmeet88523
+3. bhargavvader
+4. NareshPeshwe
 
 # References
 
@@ -25,13 +26,13 @@ import numpy as np
 from bss import Duet
 from scipy.io.wavfile import read, write
 # x is stereo(2 channels)
-sr, x = read("<FILEDIR>/x.wav")
+fs, x = read("<FILEDIR>/x.wav")
 x = np.transpose(x)
-duet = Duet(x, n_sources=5, sample_rate=sr)
+duet = Duet(x, n_sources=5, sample_rate=fs)
 estimates = duet()
 duet.plot_atn_delay_hist()
 for i in range(duet.n_sources):
-    write(f"output{i}.wav", duet.sr, estimates[i, :]+0.05*duet.x1)
+    write(f"output{i}.wav", duet.fs, estimates[i, :]+0.05*duet.x1)
 ```
 
 <img src="./Data/Figure_1.png" width="400">
