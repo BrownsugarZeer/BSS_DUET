@@ -4,6 +4,7 @@ import sys
 import scipy as sp
 from pathlib import Path
 from scipy.signal import convolve2d
+from functools import wraps
 
 import cProfile
 import pstats
@@ -14,16 +15,17 @@ FILEDIR = Path(__file__).resolve().parent
 EPSILON = 1e-16
 
 
-def performance_test(func):
+def profile_perf(func):
+    @wraps(func)
     def wrapper(*args, **kwargs):
         with cProfile.Profile() as pr:
-            print(f"Now use function `{func.__name__}`")
             result = func(*args, **kwargs)
         with open(
             f"perf_{strftime(r'%m_%d-%H_%M_%S')}_{func.__name__}.txt", 'w', encoding="utf-8"
         ) as stream:
             stats = pstats.Stats(pr, stream=stream)
             stats.strip_dirs().sort_stats('tottime').print_stats()
+            print(f"function `{func.__name__}` calls in {stats.get_stats_profile().total_tt} seconds")
         return result
     return wrapper
 
