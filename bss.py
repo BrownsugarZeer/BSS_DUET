@@ -137,7 +137,7 @@ class Duet(object):
 
     Example
     -------
-    >>> from duet import Duet
+    >>> from bss import Duet
     >>> from scipy.io.wavfile import read, write
     >>> # x is stereo(2 channels)
     >>> fs, x = read("<FILEDIR>/x.wav")
@@ -519,8 +519,8 @@ class Duet(object):
         # In order to avoid errors caused by the observed source
         # being less than the source we set.
         observed_src = h4.shape[0]
-        mask = np.zeros((self.n_sources, *bestind.shape))
-        for i in range(self.n_sources):
+        mask = np.zeros((observed_src, *bestind.shape))
+        for i in range(observed_src):
             mask[i, ...] = (bestind == i+1)
 
         h1 = np.zeros((observed_src, 1, self.tf1.shape[-1]))
